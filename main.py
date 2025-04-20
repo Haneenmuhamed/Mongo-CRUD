@@ -1,6 +1,8 @@
-from fastapi import FastAPI
+from http.client import HTTPException
+
+from fastapi import FastAPI ,HTTPException , status
 from pydantic import BaseModel, validator
-from db_crud import insert, get
+from db_crud import insert, get_one_by_name
 
 app = FastAPI()
 
@@ -26,11 +28,16 @@ class Item(BaseModel):
         if not v.strip():  # Strip is used to ensure no whitespace-only names
             raise ValueError('address cannot be empty')
         return v
-# POST endpoint
+
 @app.post("/add")
 def create(item: Item):
     return insert(item.dict())
+
 @app.get("/get/{name}")
 def get_item(name:str):
-    result=get(name)
-    return result if result else {"message": "Not found"}
+    result=get_one_by_name(name)
+    if not result:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"User with name'{name}'not found"
+                            )
+    return result

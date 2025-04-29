@@ -11,3 +11,11 @@ def get_one_by_name(name: str):
     if doc :
         doc.pop("_id",None)
     return doc
+
+
+def update_item_by_name(name:str ,updated_data:dict):
+    return collection.update_one({"name":name},{"$set":updated_data})
+
+
+def delete_item(name:str):
+    return collection.delete_one({"name":name})

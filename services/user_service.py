@@ -1,4 +1,4 @@
-from db.user_repository import insert , get_one_by_name ,update_item_by_name , delete_item
+from db.user_repository import insert , get_one_by_name ,update_item_by_name , delete_item , search_item
 from fastapi import HTTPException , status
 
 
@@ -35,3 +35,12 @@ def delete(name:str):
                             detail="user not found")
     delete_item(name)
     return  {"message":"Item Deleted Successfully"}
+
+def search(keyword :str):
+    result=search_item(keyword)
+    clean_results=[]
+    for doc in result :
+         doc["_id"]= str(doc["_id"])
+         clean_results.append(doc)
+    return  clean_results
+

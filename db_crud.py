@@ -12,3 +12,4 @@ collection.create_index([
     ("job", "text"),
     ("address", "text")
 ])
+

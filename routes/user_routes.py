@@ -2,6 +2,7 @@ from fastapi import APIRouter, Body ,Query
 from models.item_model import Item
 from services.user_service import insert_item, retrieve_item, update_item, delete, search
 
+
 router = APIRouter()
 
 @router.post("/add")
@@ -19,6 +20,8 @@ def update(name:str,item:Item = Body(...)):
 @router.delete("/delete/{name}")
 def delete_item(name:str):
     return delete(name)
+  
 @router.get("/search")
 def search_item(q:str =Query(min_length=1,description="Search keyword must not be empty")):
     return search(q)
+

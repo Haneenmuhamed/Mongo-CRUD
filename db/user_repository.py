@@ -19,3 +19,8 @@ def update_item_by_name(name:str ,updated_data:dict):
 
 def delete_item(name:str):
     return collection.delete_one({"name":name})
+  
+
+def search_item(keyword: str):
+    return list(collection.find({"$text":{"$search":keyword}}))
+

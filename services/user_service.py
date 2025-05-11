@@ -36,11 +36,13 @@ def delete(name:str):
     delete_item(name)
     return  {"message":"Item Deleted Successfully"}
 
-def search(keyword :str):
+def search(keyword :str ):
     result=search_item(keyword)
     clean_results=[]
     for doc in result :
          doc["_id"]= str(doc["_id"])
          clean_results.append(doc)
+    if not clean_results:
+        raise HTTPException(status_code=404,detail="No matching results found.")
     return  clean_results
 
